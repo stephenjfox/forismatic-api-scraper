@@ -1,0 +1,12 @@
+{
+  "name": "fetch-quotes",
+  "version": "1.0.0",
+  "description": "Feching quotes from http://forismatic.com/en/api/",
+  "main": "index.js",
+  "author": "Stephen Fox",
+  "license": "MIT",
+  "dependencies": {
+    "fs-promise": "^1.0.0",
+    "node-fetch": "^1.6.3"
+  }
+}
