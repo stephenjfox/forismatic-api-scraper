@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const fs = require('fs-promise');
 const api = Object.freeze({
   endpoint: 'http://api.forismatic.com/api/1.0/',
   format: 'json',
@@ -24,5 +25,8 @@ Promise.all(requests)
     text: quoteText
   }))
 )
-.then(console.log)
+.then(props => props.map(prop =>
+  fs.writeFile('output.json', JSON.stringify(prop), 'utf8')
+    .catch(err => console.error("Failed to write:", err))
+))
 .catch(console.error);
