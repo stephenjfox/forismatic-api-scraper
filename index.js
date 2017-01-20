@@ -12,8 +12,18 @@ const requestUrl =
 
 const randomKey = () => (+((Math.random() * 10000).toString().split('.')[0]));
 
+/*
+You should be warned that there is a limit (I haven't got it exact) to the number
+of requests allowed before things start to behave strangely. Namely:
+  - The internal parsing in node-fetch (JSON.parse) can't read the result of the
+    node-fetch call. You have to wait something like 5 minutes
+  - It may also have to do with the number of requests being processed at once.
+    I start to get hiccuppy results around 15 Promises
+*/
+const requestCount = 15;
+
 const requests = [];
-for (var i = 0; i < 2; i++) {
+for (var i = 0; i < requestCount; i++) {
   requests.push(
     fetch(`${requestUrl}&key=${randomKey()}`).then(res => res.json())
   );
@@ -26,7 +36,7 @@ Promise.all(requests)
   }))
 )
 .then(props =>
-  fs.appendFile('output.json', JSON.stringify(props), 'utf8')
+  fs.writeFile('output.json', JSON.stringify(props), 'utf8')
     .catch(err => console.error("Failed to write:", err))
 )
 .catch(console.error);
