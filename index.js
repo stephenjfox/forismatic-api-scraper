@@ -25,8 +25,8 @@ Promise.all(requests)
     text: quoteText
   }))
 )
-.then(props => props.map(prop =>
-  fs.writeFile('output.json', JSON.stringify(prop), 'utf8')
+.then(props =>
+  fs.appendFile('output.json', JSON.stringify(props), 'utf8')
     .catch(err => console.error("Failed to write:", err))
-))
+)
 .catch(console.error);
